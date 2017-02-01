@@ -2,6 +2,16 @@
 
 namespace application.Orders.Delete
 {
+    public class RefundCustomerRequest : IRequest<RefundCustomerResult>
+    {
+        public RefundCustomerRequest(int orderId)
+        {
+            OrderId = orderId;
+        }
+
+        public int OrderId { get; }
+    }
+
     public class RefundCustomerHandler : IRequestHandler<RefundCustomerRequest, RefundCustomerResult>
     {
         public RefundCustomerResult Handle(RefundCustomerRequest request)
@@ -10,5 +20,11 @@ namespace application.Orders.Delete
 
             return new RefundCustomerResult();
         }
+    }
+
+    public class RefundCustomerResult
+    {
+        public decimal RefundAmount { get; set; }
+
     }
 }

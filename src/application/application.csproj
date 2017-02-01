@@ -56,16 +56,10 @@
     <Compile Include="Customers\Get\GetCustomersWithOpenOrders.cs" />
     <Compile Include="Orders\Add\AddOrder.cs" />
     <Compile Include="Orders\Add\OrderAdded.cs" />
-    <Compile Include="Orders\Delete\RefundCustomerHandler.cs" />
-    <Compile Include="Orders\Delete\CancelOrderShippingHandler.cs" />
-    <Compile Include="Orders\Delete\RefundCustomerRequest.cs" />
-    <Compile Include="Orders\Delete\RefundCustomerResult.cs" />
-    <Compile Include="Orders\Delete\DeleteOrderHandler.cs" />
-    <Compile Include="Orders\Delete\CancelOrderShippingRequest.cs" />
-    <Compile Include="Orders\Delete\CancelOrderShippingResult.cs" />
-    <Compile Include="Orders\Delete\DeleteOrderResult.cs" />
-    <Compile Include="Orders\Delete\DeleteOrderRequest.cs" />
-    <Compile Include="Orders\Update\UpdateOrderRequest.cs" />
+    <Compile Include="Orders\Delete\RefundCustomer.cs" />
+    <Compile Include="Orders\Delete\CancelOrderShipping.cs" />
+    <Compile Include="Orders\Delete\DeleteOrder.cs" />
+    <Compile Include="Orders\Update\UpdateOrder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

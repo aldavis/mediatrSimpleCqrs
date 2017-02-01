@@ -2,6 +2,16 @@
 
 namespace application.Orders.Delete
 {
+    public class DeleteOrderRequest : IRequest<DeleteOrderResult>
+    {
+        public DeleteOrderRequest(int orderId)
+        {
+            OrderId = orderId;
+        }
+
+        public int OrderId { get; }
+    }
+
     public class DeleteOrderHandler:IRequestHandler<DeleteOrderRequest,DeleteOrderResult>
     {
         readonly IMediator _mediator;
@@ -31,5 +41,11 @@ namespace application.Orders.Delete
 
             return result;
         }
+    }
+
+    public class DeleteOrderResult
+    {
+        public string ConfirmationNumber { get; set; }
+
     }
 }
