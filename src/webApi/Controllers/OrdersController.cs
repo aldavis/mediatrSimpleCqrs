@@ -5,7 +5,7 @@ using MediatR;
 
 namespace webApi.Controllers
 {
-    [RoutePrefix("api/orders")]
+    [RoutePrefix("api/order")]
     public class OrdersController : ApiController
     {
         readonly IMediator _mediator;
@@ -16,8 +16,17 @@ namespace webApi.Controllers
         }
 
         [HttpPost]
-        [Route("Post")]
-        public IHttpActionResult Post(AddOrderRequest request)
+        [Route("add")]
+        public IHttpActionResult Add(AddOrderRequest request)
+        {
+            var result = _mediator.Send(request);
+
+            return Ok(result);
+        }
+
+        [HttpPost]
+        [Route("delete")]
+        public IHttpActionResult Delete(DeleteOrderRequest request)
         {
             var result = _mediator.Send(request);
 

@@ -5,6 +5,7 @@ using MediatR;
 
 namespace webApi.Controllers
 {
+    [RoutePrefix("api/customer")]
     public class CustomersController : ApiController
     {
         readonly IMediator _mediator;
@@ -14,7 +15,9 @@ namespace webApi.Controllers
             _mediator = mediator;
         }
 
-        public async Task<IHttpActionResult> Get()
+        [Route("customerswithopenorders")]
+        [HttpGet]
+        public async Task<IHttpActionResult> CustomersWithOpenOrders()
         {
             var result = await _mediator.Send(new GetCustomersWithOpenOrdersRequest());
 

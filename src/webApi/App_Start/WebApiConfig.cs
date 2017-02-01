@@ -9,12 +9,6 @@ namespace webApi
             config.MapHttpAttributeRoutes();
 
             AutoFacContainerBuilder.BuildContainer();
-
-            //config.Routes.MapHttpRoute(
-            //    name: "DefaultApi",
-            //    routeTemplate: "api/{controller}/{id}",
-            //    defaults: new { id = RouteParameter.Optional }
-            //);
         }
     }
 }
