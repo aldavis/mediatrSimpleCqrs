@@ -54,10 +54,8 @@
   <ItemGroup>
     <Compile Include="ApplicationModule.cs" />
     <Compile Include="Customers\Get\GetCustomersWithOpenOrders.cs" />
-    <Compile Include="Orders\Add\AddOrderHandler.cs" />
-    <Compile Include="Orders\Add\AddOrderRequest.cs" />
-    <Compile Include="Orders\Add\AddOrderResult.cs" />
-    <Compile Include="Orders\Add\AddOrderValidator.cs" />
+    <Compile Include="Orders\Add\AddOrder.cs" />
+    <Compile Include="Orders\Add\OrderAdded.cs" />
     <Compile Include="Orders\Delete\RefundCustomerHandler.cs" />
     <Compile Include="Orders\Delete\CancelOrderShippingHandler.cs" />
     <Compile Include="Orders\Delete\RefundCustomerRequest.cs" />
