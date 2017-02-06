@@ -38,6 +38,14 @@
       <HintPath>..\packages\Dapper.1.50.2\lib\net451\Dapper.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="FluentValidation, Version=6.2.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\FluentValidation.6.2.1.0\lib\Net45\FluentValidation.dll</HintPath>
       <Private>True</Private>
@@ -47,6 +55,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -59,8 +68,21 @@
   <ItemGroup>
     <Compile Include="ApplicationModule.cs" />
     <Compile Include="Customers\Get\AllCustomers.cs" />
-    <Compile Include="Orders\Add\AddOrder.cs" />
-    <Compile Include="Orders\Add\OrderAdded.cs" />
+    <Compile Include="Persistence\Migrations\201702061925227_initial.cs" />
+    <Compile Include="Persistence\Migrations\201702061925227_initial.Designer.cs">
+      <DependentUpon>201702061925227_initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Orders\Add\AddOrderHandler.cs" />
+    <Compile Include="Orders\Add\AddOrderResult.cs" />
+    <Compile Include="Orders\Add\AddOrderValidator.cs" />
+    <Compile Include="Orders\Add\Notification\OrderAddedNotification.cs" />
+    <Compile Include="Orders\Add\Notification\OrderAddedEmailNotificationHandler.cs" />
+    <Compile Include="Persistence\ForeignKeyNamingConvention.cs" />
+    <Compile Include="Persistence\Migrations\Configuration.cs" />
+    <Compile Include="Persistence\EntityFrameworkContext.cs" />
+    <Compile Include="Persistence\IEntityFrameworkContext.cs" />
+    <Compile Include="Orders\Add\AddOrderRequest.cs" />
+    <Compile Include="Orders\Add\Notification\OrderAddedBusNotifcationHandler.cs" />
     <Compile Include="Orders\Delete\RefundCustomer.cs" />
     <Compile Include="Orders\Delete\CancelOrderShipping.cs" />
     <Compile Include="Orders\Delete\DeleteOrder.cs" />
@@ -73,9 +95,14 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Persistence\Migrations\201702061925227_initial.resx">
+      <DependentUpon>201702061925227_initial.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
