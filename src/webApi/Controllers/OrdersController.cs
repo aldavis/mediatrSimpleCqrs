@@ -18,9 +18,9 @@ namespace webApi.Controllers
 
         [HttpPost]
         [Route("add")]
-        public async Task<IHttpActionResult> Add(AddOrderRequest request)
+        public IHttpActionResult Add(AddOrderRequest request)
         {
-            var result = await _mediator.Send(request);
+            var result = _mediator.Send(request);
 
             return Ok(result);
         }

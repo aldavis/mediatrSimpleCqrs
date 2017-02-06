@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using FluentValidation;
 using MediatR;
 
@@ -21,9 +22,9 @@ namespace application.Orders.Add
     public class AddOrderHandler:IRequestHandler<AddOrderRequest,AddOrderResult>
     {
         readonly IMediator _mediator;
-        private readonly AddOrderValidator _validator;
+        private readonly IValidator<AddOrderRequest> _validator;
 
-        public AddOrderHandler(IMediator mediator,AddOrderValidator validator)
+        public AddOrderHandler(IMediator mediator, IValidator<AddOrderRequest> validator)
         {
             _mediator = mediator;
             _validator = validator;
@@ -35,7 +36,7 @@ namespace application.Orders.Add
 
             //do logic to persist the order record
 
-            var result = new AddOrderResult {OrderNumber = "Test Order",ExpectedShipDate = DateTime.Now.AddDays(15)};
+            var result = new AddOrderResult { OrderNumber = "Test Order", ExpectedShipDate = DateTime.Now.AddDays(15) };
 
             _mediator.Publish(new OrderAddedNotification(result.OrderNumber));
 

@@ -6,6 +6,7 @@ using System.Reflection;
 using application.Orders.Add;
 using Autofac;
 using Autofac.Features.Variance;
+using FluentValidation;
 using MediatR;
 using Module = Autofac.Module;
 
@@ -15,8 +16,10 @@ namespace application
     {
         protected override void Load(ContainerBuilder builder)
         {
-            //dont like this
-            builder.RegisterType<AddOrderValidator>().AsSelf();
+            //register all validators
+            AssemblyScanner
+               .FindValidatorsInAssemblyContaining<AddOrderValidator>()
+               .ForEach(x => builder.RegisterType(x.ValidatorType).As(x.InterfaceType).SingleInstance());
 
             RegisterMediatR(builder);
 

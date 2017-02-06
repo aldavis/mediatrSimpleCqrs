@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using System.Threading.Tasks;
+using MediatR;
 
 namespace application.Orders.Add
 {
@@ -16,8 +17,17 @@ namespace application.Orders.Add
     {
         public void Handle(OrderAddedNotification notification)
         {
-            //TODO this appears to be getting called twice.....why???
-            string foo = notification.OrderId;
+            //still causing double hit, need to figure that part out
+            string foo = "hit notifcation";
+        }
+    }
+
+    public class OrderAddedSecondNotificationHandler : INotificationHandler<OrderAddedNotification>
+    {
+        public void Handle(OrderAddedNotification notification)
+        {
+
+            string foo = "hit second notifcation";
         }
     }
 }
