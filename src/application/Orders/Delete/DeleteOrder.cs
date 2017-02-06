@@ -1,4 +1,7 @@
-﻿using MediatR;
+﻿using System.Data.Entity;
+using System.Linq;
+using application.Persistence;
+using MediatR;
 
 namespace application.Orders.Delete
 {
@@ -15,15 +18,19 @@ namespace application.Orders.Delete
     public class DeleteOrderHandler:IRequestHandler<DeleteOrderRequest,DeleteOrderResult>
     {
         readonly IMediator _mediator;
+        private readonly IEntityFrameworkContext _context;
 
-        public DeleteOrderHandler(IMediator mediator)
+        public DeleteOrderHandler(IMediator mediator,IEntityFrameworkContext context)
         {
             _mediator = mediator;
+            _context = context;
         }
 
         public DeleteOrderResult Handle(DeleteOrderRequest message)
         {
             var result = new DeleteOrderResult();
+
+            var order = _context.Orders.Find(message.OrderId);
 
             /*lets assume that deleting an order is a complex process which involves several steps
             in those types of situations the outermost handler(this one for example) becomes more of a composite
@@ -35,7 +42,7 @@ namespace application.Orders.Delete
             var cancelShippingResponse = _mediator.Send(new CancelOrderShippingRequest(message.OrderId));
 
 
-            var refundCustomerResponse = _mediator.Send(new RefundCustomerRequest(message.OrderId));
+            var refundCustomerResponse = _mediator.Send(new RefundCustomerRequest(order.Customer.Id,order.CalculateTotal()));
 
             //keep adding handlers as needed to handle the complexity in order to keep from a single handler getting too big
 

@@ -23,26 +23,26 @@ namespace application.Persistence.Migrations
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        CustomerId = c.Int(),
+                        CustomerId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Customers", t => t.CustomerId)
-                .Index(t => t.CustomerId, name: "IX_Customer_Id");
+                .ForeignKey("dbo.Customers", t => t.CustomerId, cascadeDelete: true)
+                .Index(t => t.CustomerId);
             
             CreateTable(
                 "dbo.OrderItems",
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
+                        OrderId = c.Int(nullable: false),
+                        ProductId = c.Int(nullable: false),
                         Quantity = c.Int(nullable: false),
-                        OrderId = c.Int(),
-                        ProductId = c.Int(),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Orders", t => t.OrderId)
-                .ForeignKey("dbo.Products", t => t.ProductId)
-                .Index(t => t.OrderId, name: "IX_Order_Id")
-                .Index(t => t.ProductId, name: "IX_Product_Id");
+                .ForeignKey("dbo.Orders", t => t.OrderId, cascadeDelete: true)
+                .ForeignKey("dbo.Products", t => t.ProductId, cascadeDelete: true)
+                .Index(t => t.OrderId)
+                .Index(t => t.ProductId);
             
             CreateTable(
                 "dbo.Products",
@@ -65,9 +65,9 @@ namespace application.Persistence.Migrations
             DropForeignKey("dbo.Orders", "CustomerId", "dbo.Customers");
             DropForeignKey("dbo.OrderItems", "ProductId", "dbo.Products");
             DropForeignKey("dbo.OrderItems", "OrderId", "dbo.Orders");
-            DropIndex("dbo.OrderItems", "IX_Product_Id");
-            DropIndex("dbo.OrderItems", "IX_Order_Id");
-            DropIndex("dbo.Orders", "IX_Customer_Id");
+            DropIndex("dbo.OrderItems", new[] { "ProductId" });
+            DropIndex("dbo.OrderItems", new[] { "OrderId" });
+            DropIndex("dbo.Orders", new[] { "CustomerId" });
             DropTable("dbo.Products");
             DropTable("dbo.OrderItems");
             DropTable("dbo.Orders");

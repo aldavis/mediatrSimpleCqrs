@@ -1,4 +1,6 @@
-﻿using domain.Model.ProductRoot;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using domain.Model.ProductRoot;
 
 namespace domain.Model.OrderRoot
 {
@@ -14,9 +16,14 @@ namespace domain.Model.OrderRoot
 
         public int Id { get; set; }
 
-        public virtual Order Order { get; set; }
+        [Required]
+        public int OrderId { get; set; }
+        
+        public Order Order { get; set; }
 
-        public virtual Product Product { get; private set; }
+        [Required]
+        public int ProductId { get; set; }
+        public Product Product { get; private set; }
 
         public int Quantity { get; private set; }
     }

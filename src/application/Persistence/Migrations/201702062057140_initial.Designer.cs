@@ -13,7 +13,7 @@ namespace application.Persistence.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201702061925227_initial"; }
+            get { return "201702062057140_initial"; }
         }
         
         string IMigrationMetadata.Source

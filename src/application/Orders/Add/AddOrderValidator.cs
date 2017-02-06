@@ -15,7 +15,7 @@ namespace application.Orders.Add
 
         }
 
-        private bool BeAvailable(IList<OrderItem> items)
+        private bool BeAvailable(ICollection<OrderItem> items)
         {
             foreach (var item in items)
             {

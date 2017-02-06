@@ -1,6 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Data;
 using System.Linq;
 using domain.Model.CustomerRoot;
+
 
 namespace domain.Model.OrderRoot
 {
@@ -16,9 +20,11 @@ namespace domain.Model.OrderRoot
 
         public int Id { get; set; }
 
-        public virtual Customer Customer { get; }
+        [Required]
+        public int CustomerId { get; set; }
+        public Customer Customer { get; }
 
-        public virtual IList<OrderItem> Items { get; }
+        public ICollection<OrderItem> Items { get; }
 
         public void AddItem(OrderItem item)
         {

@@ -1,18 +1,19 @@
-﻿using System.Data.Entity;
-using System.Linq;
-using application.Persistence;
+﻿using application.Persistence;
 using MediatR;
 
 namespace application.Orders.Delete
 {
     public class RefundCustomerRequest : IRequest<RefundCustomerResult>
     {
-        public RefundCustomerRequest(int orderId)
+        public RefundCustomerRequest(int customerId,decimal amount)
         {
-            OrderId = orderId;
+            CustomerId = customerId;
+            Amount = amount;
         }
 
-        public int OrderId { get; }
+        public int CustomerId { get; }
+
+        public decimal Amount { get; }
     }
 
     public class RefundCustomerHandler : IRequestHandler<RefundCustomerRequest, RefundCustomerResult>
@@ -27,19 +28,16 @@ namespace application.Orders.Delete
         public RefundCustomerResult Handle(RefundCustomerRequest request)
         {
 
+            var customer = _context.Customers.Find(request.CustomerId);
 
-            var order = _context.Orders.Include(y => y.Customer).FirstOrDefault(x => x.Id == request.OrderId);
-
-            var refundAmount = order.CalculateTotal();
-
-            order.Customer.CreditAccount(refundAmount);
+            customer.CreditAccount(request.Amount);
 
             _context.SaveChanges();
 
             return new RefundCustomerResult
             {
-                CurrentAccountBalance = order.Customer.AccountBalance,
-                RefundAmount = refundAmount
+                CurrentAccountBalance = customer.AccountBalance,
+                RefundAmount = request.Amount
             };
         }
     }

@@ -68,9 +68,9 @@
   <ItemGroup>
     <Compile Include="ApplicationModule.cs" />
     <Compile Include="Customers\Get\AllCustomers.cs" />
-    <Compile Include="Persistence\Migrations\201702061925227_initial.cs" />
-    <Compile Include="Persistence\Migrations\201702061925227_initial.Designer.cs">
-      <DependentUpon>201702061925227_initial.cs</DependentUpon>
+    <Compile Include="Persistence\Migrations\201702062057140_initial.cs" />
+    <Compile Include="Persistence\Migrations\201702062057140_initial.Designer.cs">
+      <DependentUpon>201702062057140_initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Orders\Add\AddOrderHandler.cs" />
     <Compile Include="Orders\Add\AddOrderResult.cs" />
@@ -98,9 +98,10 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <EmbeddedResource Include="Persistence\Migrations\201702061925227_initial.resx">
-      <DependentUpon>201702061925227_initial.cs</DependentUpon>
+    <EmbeddedResource Include="Persistence\Migrations\201702062057140_initial.resx">
+      <DependentUpon>201702062057140_initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
