@@ -6,14 +6,14 @@ namespace application.Orders.Add
 {
     public class AddOrderRequest : IRequest<AddOrderResult>
     {
-        public AddOrderRequest(string customerNumber, string partNumber, int quantity)
+        public AddOrderRequest(int customerId, string partNumber, int quantity)
         {
-            CustomerNumber = customerNumber;
+            CustomerId = customerId;
             PartNumber = partNumber;
             Quantity = quantity;
         }
 
-        public string CustomerNumber { get; }
+        public int CustomerId { get; }
         public string PartNumber { get; }
         public int Quantity { get; }
     }
@@ -21,14 +21,20 @@ namespace application.Orders.Add
     public class AddOrderHandler:IRequestHandler<AddOrderRequest,AddOrderResult>
     {
         readonly IMediator _mediator;
+        private readonly AddOrderValidator _validator;
 
-        public AddOrderHandler(IMediator mediator)
+        public AddOrderHandler(IMediator mediator,AddOrderValidator validator)
         {
             _mediator = mediator;
+            _validator = validator;
         }
 
         public AddOrderResult Handle(AddOrderRequest message)
         {
+            _validator.ValidateAndThrow(message);
+
+            //do logic to persist the order record
+
             var result = new AddOrderResult {OrderNumber = "Test Order",ExpectedShipDate = DateTime.Now.AddDays(15)};
 
             _mediator.Publish(new OrderAddedNotification(result.OrderNumber));
@@ -49,7 +55,7 @@ namespace application.Orders.Add
     {
         public AddOrderValidator()
         {
-            RuleFor(x => x.CustomerNumber).NotEmpty().WithMessage("Customer # not supplied");
+            RuleFor(x => x.CustomerId).GreaterThan(0).WithMessage("CustomerId not supplied");
             RuleFor(x => x.PartNumber).NotEmpty().WithMessage("Part # not supplied");
             RuleFor(x => x.Quantity).GreaterThan(0).WithMessage("Quantity must be greater than 0");
         }

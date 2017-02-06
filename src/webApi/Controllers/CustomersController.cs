@@ -15,11 +15,11 @@ namespace webApi.Controllers
             _mediator = mediator;
         }
 
-        [Route("customerswithopenorders")]
+        [Route("allcustomers")]
         [HttpGet]
-        public async Task<IHttpActionResult> CustomersWithOpenOrders()
+        public async Task<IHttpActionResult> Get()
         {
-            var result = await _mediator.Send(new GetCustomersWithOpenOrdersRequest());
+            var result = await _mediator.Send(new AllCustomersRequest());
 
             return Ok(result);
         }

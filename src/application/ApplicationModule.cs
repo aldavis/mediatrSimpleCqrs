@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net.NetworkInformation;
 using System.Reflection;
+using application.Orders.Add;
 using Autofac;
 using Autofac.Features.Variance;
 using MediatR;
@@ -14,6 +15,9 @@ namespace application
     {
         protected override void Load(ContainerBuilder builder)
         {
+            //dont like this
+            builder.RegisterType<AddOrderValidator>().AsSelf();
+
             RegisterMediatR(builder);
 
             builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly())
