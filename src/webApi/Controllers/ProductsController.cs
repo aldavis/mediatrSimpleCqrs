@@ -18,7 +18,7 @@ namespace webApi.Controllers
         [Route("add")]
         public IHttpActionResult Add(AddProductRequest request)
         {
-            var result = _mediator.Send(new AddProductRequest());
+            var result = _mediator.Send(request);
 
             return Ok(result);
         }
