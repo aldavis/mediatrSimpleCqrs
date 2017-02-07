@@ -1,28 +1,47 @@
-﻿using System.Threading.Tasks;
-using application;
+﻿using System.Linq;
+using System.Threading.Tasks;
+using application.Infrastructure.Persistence;
 using application.Orders.Add;
 using Autofac;
+using domain.Model.CustomerRoot;
+using domain.Model.OrderRoot;
+using domain.Model.ProductRoot;
 using Machine.Specifications;
 using MediatR;
+using Xunit;
 
 namespace specs
 {
-    public class when_adding_new_order
+    public class AddOrderSpecs
     {
-        static IMediator _mediator;
-        static Task<AddOrderResult> _result;
 
-        Establish context = () =>
+        [Fact]
+        public async Task when_adding_order_results_should_not_be_null()
         {
             var builder = new ContainerBuilder();
-            builder.RegisterModule<ApplicationModule>();
+            builder.RegisterModule<SpecsModule>();
+
             var container = builder.Build();
 
-            _mediator = container.Resolve<IMediator>();
-        };
+            var mediator = container.Resolve<IMediator>();
+            var context = container.Resolve<IEntityFrameworkContext>();
 
-        Because of = () => _result = _mediator.Send(new AddOrderRequest("1","jkjk",1));
+            var product = new Product("TP1",101.25m,null,500) {Id = 1};
+            context.Products.Add(product);
 
-        It should_return_add_order_result = () => _result.Result.ShouldNotBeNull();
+            var customer = new Customer("Charlie Brown") {Id = 1};
+            context.Customers.Add(customer);
+
+            var order = new Order(customer);
+            order.AddItem(new OrderItem(product,2));
+
+
+            var response = await mediator.Send(new AddOrderRequest(order));
+
+            response.OrderTotal.ShouldBeGreaterThan(0);
+
+        }
+
     }
 }
+

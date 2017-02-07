@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using application.Infrastructure.Persistence;
 using application.Orders.Add.Notification;
@@ -57,39 +58,39 @@ namespace application.Orders.Add
         private readonly IValidator<AddOrderRequest> _validator;
         private readonly IEntityFrameworkContext _context;
 
-        public AddOrderHandler(IMediator mediator, IValidator<AddOrderRequest> validator,IEntityFrameworkContext context)
+        public AddOrderHandler(IMediator mediator,IValidator<AddOrderRequest> validator ,IEntityFrameworkContext context)
         {
             _mediator = mediator;
-            _validator = validator;
             _context = context;
+            _validator = validator;
         }
 
-        public async Task<AddOrderResult> Handle(AddOrderRequest message)
+        public Task<AddOrderResult> Handle(AddOrderRequest message)
         {
-            await _validator.ValidateAndThrowAsync(message);
+            _validator.ValidateAndThrow(message);
 
-            var customer = _context.Customers.Find(message.Order.Customer.Id);
+            var customer = _context.Customers.First(x => x.Id == message.Order.Customer.Id);
 
             var order = new Order(customer);
 
             foreach (var orderItem in message.Order.Items)
             {
-                var lineItem = new OrderItem(_context.Products.Find(orderItem.Product.Id),orderItem.Quantity);
+                var lineItem = new OrderItem(_context.Products.First(x => x.Id == orderItem.Product.Id), orderItem.Quantity);
                 order.AddItem(lineItem);
             }
 
-            customer.Orders.Add(order);
+            customer?.Orders.Add(order);
 
             var orderTotal = order.CalculateTotal();
             order.Customer.DebitAccount(orderTotal);
 
             _context.SaveChanges();
 
-            var result = new AddOrderResult { OrderNumber = "Test Order", ExpectedShipDate = DateTime.Now.AddDays(15),OrderTotal = order.CalculateTotal()};
+            var result = new AddOrderResult { OrderNumber = "Test Order", ExpectedShipDate = DateTime.Now.AddDays(15), OrderTotal = order.CalculateTotal() };
 
-            await _mediator.Publish(new OrderAddedNotification(result.OrderNumber));
+            _mediator.Publish(new OrderAddedNotification(result.OrderNumber));
 
-            return result;
+            return Task.FromResult(result);
         }
     }
 }

@@ -10,7 +10,7 @@ using MediatR;
 using MediatR.Pipeline;
 using Module = Autofac.Module;
 
-namespace application
+namespace webApi
 {
     public class ApplicationModule:Module
     {

@@ -9,6 +9,7 @@ namespace domain.Model.CustomerRoot
         {
             Name = name;
             AllowedDiscountAmount = allowableDiscout;
+            Orders = new List<Order>();
         }
 
         protected Customer()
