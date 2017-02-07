@@ -22,7 +22,7 @@ namespace application.Orders.Add
 
     public class AddOrderResult
     {
-        public string OrderNumber { get; set; }
+        public int OrderNumber { get; set; }
 
         public DateTime ExpectedShipDate { get; set; }
 
@@ -65,7 +65,7 @@ namespace application.Orders.Add
             _validator = validator;
         }
 
-        public Task<AddOrderResult> Handle(AddOrderRequest message)
+        public async Task<AddOrderResult> Handle(AddOrderRequest message)
         {
             _validator.ValidateAndThrow(message);
 
@@ -84,13 +84,13 @@ namespace application.Orders.Add
             var orderTotal = order.CalculateTotal();
             order.Customer.DebitAccount(orderTotal);
 
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
-            var result = new AddOrderResult { OrderNumber = "Test Order", ExpectedShipDate = DateTime.Now.AddDays(15), OrderTotal = order.CalculateTotal() };
+            var result = new AddOrderResult { OrderNumber = order.Id, ExpectedShipDate = DateTime.Now.AddDays(15), OrderTotal = order.CalculateTotal() };
 
-            _mediator.Publish(new OrderAddedNotification(result.OrderNumber));
+            await _mediator.Publish(new OrderAddedNotification(result.OrderNumber));
 
-            return Task.FromResult(result);
+            return result;
         }
     }
 }

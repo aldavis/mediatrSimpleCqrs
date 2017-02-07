@@ -6,12 +6,12 @@ namespace application.Orders.Add.Notification
 {
     public class OrderAddedNotification:INotification
     {
-        public OrderAddedNotification(string orderId)
+        public OrderAddedNotification(int orderId)
         {
             OrderId = orderId;
         }
 
-        public string OrderId { get; }
+        public int OrderId { get; }
     }
 
     public class OrderAddedEmailNotificationHandler : IAsyncNotificationHandler<OrderAddedNotification>
