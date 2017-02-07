@@ -15,12 +15,19 @@ namespace application.Orders.Delete
         public int OrderId { get; }
     }
 
-    public class DeleteOrderHandler:IRequestHandler<DeleteOrderRequest,DeleteOrderResult>
+
+    public class DeleteOrderResult
+    {
+        public string ConfirmationNumber { get; set; }
+
+    }
+
+    public class DeleteOrderHandler : IRequestHandler<DeleteOrderRequest, DeleteOrderResult>
     {
         readonly IMediator _mediator;
         private readonly IEntityFrameworkContext _context;
 
-        public DeleteOrderHandler(IMediator mediator,IEntityFrameworkContext context)
+        public DeleteOrderHandler(IMediator mediator, IEntityFrameworkContext context)
         {
             _mediator = mediator;
             _context = context;
@@ -42,7 +49,7 @@ namespace application.Orders.Delete
             var cancelShippingResponse = _mediator.Send(new CancelOrderShippingRequest(message.OrderId));
 
 
-            var refundCustomerResponse = _mediator.Send(new RefundCustomerRequest(order.Customer.Id,order.CalculateTotal()));
+            var refundCustomerResponse = _mediator.Send(new RefundCustomerRequest(order.Customer.Id, order.CalculateTotal()));
 
             //keep adding handlers as needed to handle the complexity in order to keep from a single handler getting too big
 
@@ -50,9 +57,4 @@ namespace application.Orders.Delete
         }
     }
 
-    public class DeleteOrderResult
-    {
-        public string ConfirmationNumber { get; set; }
-
-    }
 }

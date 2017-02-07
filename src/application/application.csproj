@@ -86,11 +86,7 @@
     <Compile Include="Orders\Delete\RefundCustomer.cs" />
     <Compile Include="Orders\Delete\CancelOrderShipping.cs" />
     <Compile Include="Orders\Delete\DeleteOrder.cs" />
-    <Compile Include="Products\AddProductPostProcessor.cs" />
-    <Compile Include="Products\AddProductRequest.cs" />
-    <Compile Include="Products\AddProductRequestHandler.cs" />
-    <Compile Include="Products\AddProductRequestPreProcessor.cs" />
-    <Compile Include="Products\AddProductResult.cs" />
+    <Compile Include="Products\AddProduct.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

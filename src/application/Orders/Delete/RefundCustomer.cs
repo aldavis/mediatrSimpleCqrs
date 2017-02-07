@@ -16,6 +16,15 @@ namespace application.Orders.Delete
         public decimal Amount { get; }
     }
 
+
+    public class RefundCustomerResult
+    {
+        public decimal RefundAmount { get; set; }
+
+        public decimal CurrentAccountBalance { get; set; }
+
+    }
+
     public class RefundCustomerHandler : IRequestHandler<RefundCustomerRequest, RefundCustomerResult>
     {
         private readonly IEntityFrameworkContext _context;
@@ -40,13 +49,5 @@ namespace application.Orders.Delete
                 RefundAmount = request.Amount
             };
         }
-    }
-
-    public class RefundCustomerResult
-    {
-        public decimal RefundAmount { get; set; }
-
-        public decimal CurrentAccountBalance { get; set; }
-
     }
 }

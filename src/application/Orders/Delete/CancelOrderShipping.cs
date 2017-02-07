@@ -12,6 +12,12 @@ namespace application.Orders.Delete
         public int OrderId { get; }
     }
 
+    public class CancelOrderShippingResult
+    {
+        public string OrderNumber { get; set; }
+
+    }
+
     public class CancelOrderShippingHandler : IRequestHandler<CancelOrderShippingRequest,CancelOrderShippingResult>
     {
         public CancelOrderShippingResult Handle(CancelOrderShippingRequest request)
@@ -20,11 +26,5 @@ namespace application.Orders.Delete
 
             return new CancelOrderShippingResult();
         }
-    }
-
-    public class CancelOrderShippingResult
-    {
-        public string OrderNumber { get; set; }
-
     }
 }
