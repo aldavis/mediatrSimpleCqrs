@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using MediatR;
 
-namespace application.Logging
+namespace application.Infrastructure.Logging
 {
     public class LoggingBehavior<TRequest,TResponse>:IPipelineBehavior<TRequest,TResponse>
     {

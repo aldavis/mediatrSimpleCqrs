@@ -2,7 +2,7 @@
 using System.Data.Entity.Infrastructure;
 using System.Data.Entity.ModelConfiguration.Conventions;
 
-namespace application.Persistence
+namespace application.Infrastructure.Persistence
 {
     public class ForeignKeyNamingConvention : IStoreModelConvention<AssociationType>
     {

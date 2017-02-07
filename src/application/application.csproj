@@ -67,19 +67,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationModule.cs" />
+    <Compile Include="Infrastructure\Authentication\AuthenticationBehavior.cs" />
     <Compile Include="Customers\Get\AllCustomers.cs" />
-    <Compile Include="Logging\Logger.cs" />
-    <Compile Include="Logging\LoggingBehavior.cs" />
-    <Compile Include="Persistence\Migrations\201702062057140_initial.cs" />
-    <Compile Include="Persistence\Migrations\201702062057140_initial.Designer.cs">
+    <Compile Include="Infrastructure\Logging\Logger.cs" />
+    <Compile Include="Infrastructure\Logging\LoggingBehavior.cs" />
+    <Compile Include="Infrastructure\Persistence\Migrations\201702062057140_initial.cs" />
+    <Compile Include="Infrastructure\Persistence\Migrations\201702062057140_initial.Designer.cs">
       <DependentUpon>201702062057140_initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Orders\Add\AddOrder.cs" />
     <Compile Include="Orders\Add\Notification\OrderAddedNotification.cs" />
-    <Compile Include="Persistence\ForeignKeyNamingConvention.cs" />
-    <Compile Include="Persistence\Migrations\Configuration.cs" />
-    <Compile Include="Persistence\EntityFrameworkContext.cs" />
-    <Compile Include="Persistence\IEntityFrameworkContext.cs" />
+    <Compile Include="Infrastructure\Persistence\ForeignKeyNamingConvention.cs" />
+    <Compile Include="Infrastructure\Persistence\Migrations\Configuration.cs" />
+    <Compile Include="Infrastructure\Persistence\EntityFrameworkContext.cs" />
+    <Compile Include="Infrastructure\Persistence\IEntityFrameworkContext.cs" />
     <Compile Include="Orders\Delete\RefundCustomer.cs" />
     <Compile Include="Orders\Delete\CancelOrderShipping.cs" />
     <Compile Include="Orders\Delete\DeleteOrder.cs" />
@@ -98,7 +99,7 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <EmbeddedResource Include="Persistence\Migrations\201702062057140_initial.resx">
+    <EmbeddedResource Include="Infrastructure\Persistence\Migrations\201702062057140_initial.resx">
       <DependentUpon>201702062057140_initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace application.Logging
+namespace application.Infrastructure.Logging
 {
     public class Logger
     {

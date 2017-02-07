@@ -1,8 +1,7 @@
-namespace application.Persistence.Migrations
+using System.Data.Entity.Migrations;
+
+namespace application.Infrastructure.Persistence.Migrations
 {
-    using System;
-    using System.Data.Entity.Migrations;
-    
     public partial class initial : DbMigration
     {
         public override void Up()

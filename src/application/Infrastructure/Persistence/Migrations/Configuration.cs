@@ -3,7 +3,7 @@ using System.Linq;
 using domain.Model.CustomerRoot;
 using domain.Model.ProductRoot;
 
-namespace application.Persistence.Migrations
+namespace application.Infrastructure.Persistence.Migrations
 {
     internal sealed class Configuration : DbMigrationsConfiguration<EntityFrameworkContext>
     {

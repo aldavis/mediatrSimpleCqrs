@@ -5,7 +5,7 @@ using domain.Model.CustomerRoot;
 using domain.Model.OrderRoot;
 using domain.Model.ProductRoot;
 
-namespace application.Persistence
+namespace application.Infrastructure.Persistence
 {
     public class EntityFrameworkContext:DbContext,IEntityFrameworkContext
     {

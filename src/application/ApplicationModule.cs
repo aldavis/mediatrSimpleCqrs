@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Reflection;
-using application.Logging;
+using application.Infrastructure.Authentication;
+using application.Infrastructure.Logging;
 using application.Orders.Add;
 using Autofac;
 using Autofac.Features.Variance;
@@ -36,6 +37,7 @@ namespace application
             builder.RegisterAssemblyTypes(typeof(ApplicationModule).GetTypeInfo().Assembly).AsImplementedInterfaces();
 
             //register pipeline behaviors(order of registration matters in some cases)
+            builder.RegisterGeneric(typeof(AuthenticationBehavior<,>)).As(typeof(IPipelineBehavior<,>));
             builder.RegisterGeneric(typeof(LoggingBehavior<,>)).As(typeof(IPipelineBehavior<,>));
             builder.RegisterGeneric(typeof(RequestPreProcessorBehavior<,>)).As(typeof(IPipelineBehavior<,>));
             builder.RegisterGeneric(typeof(RequestPostProcessorBehavior<,>)).As(typeof(IPipelineBehavior<,>));

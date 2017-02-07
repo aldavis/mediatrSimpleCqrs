@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using application.Infrastructure.Persistence;
 using application.Orders.Add.Notification;
-using application.Persistence;
 using domain.Model.OrderRoot;
 using FluentValidation;
 using MediatR;

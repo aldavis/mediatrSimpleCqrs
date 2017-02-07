@@ -1,6 +1,6 @@
 ﻿using System.Data.Entity;
 using System.Linq;
-using application.Persistence;
+using application.Infrastructure.Persistence;
 using MediatR;
 
 namespace application.Orders.Delete
