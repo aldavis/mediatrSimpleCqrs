@@ -21,26 +21,22 @@ namespace webApi
                .FindValidatorsInAssemblyContaining<AddOrderValidator>()
                .ForEach(x => builder.RegisterType(x.ValidatorType).As(x.InterfaceType).SingleInstance());
 
-            builder.RegisterType<Logger>().AsSelf();
-
             RegisterMediatR(builder);
 
-            builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly())
-                .AsImplementedInterfaces()
-                .InstancePerRequest();
+            builder.RegisterType<Logger>().AsSelf();
         }
 
         void RegisterMediatR(ContainerBuilder builder)
         {
             builder.RegisterSource(new ContravariantRegistrationSource());
             builder.RegisterAssemblyTypes(typeof(IMediator).GetTypeInfo().Assembly).AsImplementedInterfaces();
-            builder.RegisterAssemblyTypes(typeof(ApplicationModule).GetTypeInfo().Assembly).AsImplementedInterfaces();
+            builder.RegisterAssemblyTypes(typeof(AddOrderRequest).GetTypeInfo().Assembly).AsImplementedInterfaces();
 
             //register pipeline behaviors(order of registration matters in some cases)
-            builder.RegisterGeneric(typeof(AuthenticationBehavior<,>)).As(typeof(IPipelineBehavior<,>));
-            builder.RegisterGeneric(typeof(LoggingBehavior<,>)).As(typeof(IPipelineBehavior<,>));
-            builder.RegisterGeneric(typeof(RequestPreProcessorBehavior<,>)).As(typeof(IPipelineBehavior<,>));
-            builder.RegisterGeneric(typeof(RequestPostProcessorBehavior<,>)).As(typeof(IPipelineBehavior<,>));
+            //builder.RegisterGeneric(typeof(AuthenticationBehavior<,>)).As(typeof(IPipelineBehavior<,>));
+            //builder.RegisterGeneric(typeof(LoggingBehavior<,>)).As(typeof(IPipelineBehavior<,>));
+            //builder.RegisterGeneric(typeof(RequestPreProcessorBehavior<,>)).As(typeof(IPipelineBehavior<,>));
+            //builder.RegisterGeneric(typeof(RequestPostProcessorBehavior<,>)).As(typeof(IPipelineBehavior<,>));
             
 
             builder.Register<SingleInstanceFactory>(ctx =>
