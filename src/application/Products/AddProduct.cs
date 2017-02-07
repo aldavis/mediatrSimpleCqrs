@@ -59,15 +59,13 @@ namespace application.Products
             _validator = validator;
         }
 
-        public Task Process(AddProductRequest request)
+        public async Task Process(AddProductRequest request)
         {
-            _validator.ValidateAndThrow(request);
-
-            return Task.FromResult("Valid");
+            await _validator.ValidateAndThrowAsync(request);
         }
     }
 
-    public class AddProductRequestHandler : IRequestHandler<AddProductRequest, AddProductResult>
+    public class AddProductRequestHandler : IAsyncRequestHandler<AddProductRequest, AddProductResult>
     {
         private readonly IEntityFrameworkContext _context;
 
@@ -76,13 +74,13 @@ namespace application.Products
             _context = context;
         }
 
-        public AddProductResult Handle(AddProductRequest request)
+        public async Task<AddProductResult> Handle(AddProductRequest request)
         {
             var product = new Product(request.PartNumber, request.Price);
 
             _context.Products.Add(product);
 
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return new AddProductResult {Message = "Product Added",PartNumber = product.PartNumber,ProductId = product.Id};
         }

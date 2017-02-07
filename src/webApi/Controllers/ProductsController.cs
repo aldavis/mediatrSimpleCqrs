@@ -1,4 +1,5 @@
-﻿using System.Web.Http;
+﻿using System.Threading.Tasks;
+using System.Web.Http;
 using application.Products;
 using MediatR;
 
@@ -16,9 +17,9 @@ namespace webApi.Controllers
 
         [HttpPost]
         [Route("add")]
-        public IHttpActionResult Add(AddProductRequest request)
+        public async Task<IHttpActionResult> Add(AddProductRequest request)
         {
-            var result = _mediator.Send(request);
+            var result =  await _mediator.Send(request);
 
             return Ok(result);
         }
