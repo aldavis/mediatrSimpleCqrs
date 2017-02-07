@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net.NetworkInformation;
+﻿using System.Collections.Generic;
 using System.Reflection;
+using application.Logging;
 using application.Orders.Add;
 using Autofac;
 using Autofac.Features.Variance;
@@ -23,6 +20,8 @@ namespace application
                .FindValidatorsInAssemblyContaining<AddOrderValidator>()
                .ForEach(x => builder.RegisterType(x.ValidatorType).As(x.InterfaceType).SingleInstance());
 
+            builder.RegisterType<Logger>().AsSelf();
+
             RegisterMediatR(builder);
 
             builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly())
@@ -36,8 +35,11 @@ namespace application
             builder.RegisterAssemblyTypes(typeof(IMediator).GetTypeInfo().Assembly).AsImplementedInterfaces();
             builder.RegisterAssemblyTypes(typeof(ApplicationModule).GetTypeInfo().Assembly).AsImplementedInterfaces();
 
+            //register pipeline behaviors
+            builder.RegisterGeneric(typeof(LoggingBehavior<,>)).As(typeof(IPipelineBehavior<,>));
             builder.RegisterGeneric(typeof(RequestPreProcessorBehavior<,>)).As(typeof(IPipelineBehavior<,>));
             builder.RegisterGeneric(typeof(RequestPostProcessorBehavior<,>)).As(typeof(IPipelineBehavior<,>));
+            
 
             builder.Register<SingleInstanceFactory>(ctx =>
             {

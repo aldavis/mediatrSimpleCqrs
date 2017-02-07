@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using application.Orders.Add.Notification;
 using application.Persistence;
 using domain.Model.OrderRoot;
@@ -7,7 +9,49 @@ using MediatR;
 
 namespace application.Orders.Add
 {
-    public class AddOrderHandler:IRequestHandler<AddOrderRequest,AddOrderResult>
+    public class AddOrderRequest : IRequest<AddOrderResult>
+    {
+        public AddOrderRequest(Order order)
+        {
+            Order = order;
+        }
+
+        public Order Order { get; set; }
+    }
+
+    public class AddOrderResult
+    {
+        public string OrderNumber { get; set; }
+
+        public DateTime ExpectedShipDate { get; set; }
+
+        public decimal OrderTotal { get; set; }
+
+    }
+
+    public class AddOrderValidator : AbstractValidator<AddOrderRequest>
+    {
+        //TODO add validation that product and customers actually exist, use Dapper to get the data
+        public AddOrderValidator()
+        {
+            RuleFor(x => x.Order.Customer.Id).GreaterThan(0).WithMessage("CustomerId not supplied");
+
+            RuleFor(x => x.Order.Items).Must(BeAvailable);
+
+        }
+
+        private bool BeAvailable(ICollection<OrderItem> items)
+        {
+            foreach (var item in items)
+            {
+                //do whatever logic we need to determine if the product can be ordered
+            }
+
+            return true;
+        }
+    }
+
+    public class AddOrderHandler:IAsyncRequestHandler<AddOrderRequest,AddOrderResult>
     {
         readonly IMediator _mediator;
         private readonly IValidator<AddOrderRequest> _validator;
@@ -20,9 +64,9 @@ namespace application.Orders.Add
             _context = context;
         }
 
-        public AddOrderResult Handle(AddOrderRequest message)
+        public async Task<AddOrderResult> Handle(AddOrderRequest message)
         {
-            _validator.ValidateAndThrow(message);
+            await _validator.ValidateAndThrowAsync(message);
 
             var customer = _context.Customers.Find(message.Order.Customer.Id);
 
@@ -43,7 +87,7 @@ namespace application.Orders.Add
 
             var result = new AddOrderResult { OrderNumber = "Test Order", ExpectedShipDate = DateTime.Now.AddDays(15),OrderTotal = order.CalculateTotal()};
 
-            _mediator.Publish(new OrderAddedNotification(result.OrderNumber));
+            await _mediator.Publish(new OrderAddedNotification(result.OrderNumber));
 
             return result;
         }
